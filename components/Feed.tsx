@@ -62,11 +62,8 @@ const Feed = () => {
 
       {/* Feed */}
       <div>
-        {contents ? (
-          contents.map((post) => <Post key={post._id} post={post} />)
-        ) : (
-          <h1>Loading</h1>
-        )}
+        {contents &&
+          contents.map((post) => <Post key={post._id} post={post} />)}
       </div>
     </div>
   );
