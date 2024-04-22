@@ -94,7 +94,7 @@ const Tweetbox = () => {
             message: 'Login Successful',
             status: true,
             data: {
-              _id: '661b206b272a6a054864ef9d',
+              _id: '66267b86c15cff7dcbcda8c9',
               firstName: 'Joshua',
               lastName: 'Ajagbe',
               email: 'joshuaajagbe96@gmail.com',
@@ -102,7 +102,7 @@ const Tweetbox = () => {
               password:
                 '$2a$10$Lq1hdijU6JRZTZ8zsmxqtutzfp/uwnxDwUA02QK1pI8aD/hXS5Xja',
               profileImage:
-                'https://firebasestorage.googleapis.com/v0/b/thrive-net.appspot.com/o/profileImages%2FWhatsApp%20Image%202024-02-28%20at%207.58.56%20AM.jpeg?alt=media&token=1de34eba-9877-4bf9-984e-3b0d53d761a1',
+                'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png',
               __v: 0,
             },
           };
