@@ -36,7 +36,9 @@ const Signin = () => {
           toast(data.message);
           setIsLoading(false);
         } else {
-          localStorage.setItem('user', JSON.stringify(data));
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('user', JSON.stringify(data));
+          }
           toast(data.message);
           router.push('/');
         }
