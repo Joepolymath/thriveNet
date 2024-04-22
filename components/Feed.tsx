@@ -25,22 +25,22 @@ const Feed = () => {
   async function getPosts() {
     const res = await fetch('api/posts');
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch data');
-    }
+    // if (!res.ok) {
+    //   throw new Error('Failed to fetch data');
+    // }
 
     return res.json();
   }
 
   useEffect(() => {
-    let data: any;
+    let content: any;
     (async function () {
-      data = await getPosts();
-      if (!data.status) {
+      content = await getPosts();
+      if (!content.status) {
         toast('Unable to fetch posts');
       } else {
-        console.log({ data });
-        setContents(data.data);
+        console.log({ content });
+        setContents(content.data);
       }
     })();
   }, []);
@@ -62,8 +62,11 @@ const Feed = () => {
 
       {/* Feed */}
       <div>
-        {contents &&
-          contents.map((post) => <Post key={post._id} post={post} />)}
+        {contents ? (
+          contents.map((post) => <Post key={post._id} post={post} />)
+        ) : (
+          <h1>Loading</h1>
+        )}
       </div>
     </div>
   );
