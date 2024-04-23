@@ -15,8 +15,10 @@ const CommunityProfile = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     const { id } = params;
+    console.log({ pageId: id });
+    console.log({ communities });
     const community = communities.find(
-      (singleCommunity: ICommunity) => id === singleCommunity.id
+      (singleCommunity: ICommunity) => id == singleCommunity.id
     );
     setProfileData(community as ICommunity);
   }, []);
@@ -31,10 +33,10 @@ const CommunityProfile = ({ params }: { params: { id: string } }) => {
       {isOpen && <Sidebar />}
 
       {/* profile component */}
-      {/* <CommunityProfileComponent
+      <CommunityProfileComponent
         data={profileData as ICommunity}
         navState={{ isOpen, setIsOpen }}
-      /> */}
+      />
 
       {/* widget */}
       {isOpen && <Widgets />}

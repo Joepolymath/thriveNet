@@ -10,8 +10,8 @@ const postSchema = new mongoose.Schema(
       ref: 'User',
     },
     community: {
-      type: mongoose.Types.ObjectId,
-      ref: 'Community',
+      type: String,
+      default: 'all',
     },
     image: {
       type: String,

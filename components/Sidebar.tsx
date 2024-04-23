@@ -20,7 +20,7 @@ const Sidebar = () => {
         <a href="/communities">
           <SidebarRow Icon={HashtagIcon} title="Communities" />
         </a>
-        <SidebarRow Icon={BookmarkIcon} title="Bookmarks" />
+        {/* <SidebarRow Icon={BookmarkIcon} title="Bookmarks" /> */}
         <a href="/signin">
           <SidebarRow Icon={UserIcon} title="SignIn" />
         </a>

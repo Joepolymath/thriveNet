@@ -32,7 +32,7 @@ const CommunitiesFeed = ({ navState }: Props) => {
           {communities.length > 0 && (
             <div>
               {communities.map((community) => (
-                <a href={`/communities/${community.id}`}>
+                <a key={community.id} href={`/communities/${community.id}`}>
                   <div
                     className="flex items-center space-x-5 p-5 border-y border-gray-100 cursor-pointer"
                     key={community.id}

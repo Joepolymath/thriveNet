@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ICommunity } from '@/@types/community.types';
 import { posts } from '@/data';
 import Post from './Post';
@@ -17,6 +17,14 @@ interface Props {
 }
 
 const CommunityProfile = ({ data, navState }: Props) => {
+  const [communityData, setCommunityData] = useState<ICommunity | null>(null);
+  useEffect(() => {
+    console.log('LOGGING FROM COMMUNITY PROFILE', { data });
+    if (Object.keys(data).length > 0) {
+      setCommunityData(data);
+    }
+  }, [data]);
+
   return (
     <div
       className={`col-span-${
@@ -49,7 +57,7 @@ const CommunityProfile = ({ data, navState }: Props) => {
             ))}
           </div>
         )} */}
-        <Feed2 />
+        {communityData && <Feed2 name={communityData.name} />}
       </div>
     </div>
   );

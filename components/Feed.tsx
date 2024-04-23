@@ -57,7 +57,7 @@ const Feed = () => {
 
       {/* Tweetbox */}
       <div>
-        <Tweetbox />
+        <Tweetbox name="home" />
       </div>
 
       {/* Feed */}

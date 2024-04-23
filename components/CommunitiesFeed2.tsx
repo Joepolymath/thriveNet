@@ -8,26 +8,19 @@ import { toast } from 'react-toastify';
 import { redirect } from 'next/navigation';
 
 interface Props {
-  posts: IPost[];
+  name: string;
 }
 
-const Feed2 = () => {
+const Feed2 = ({ name }: Props) => {
   const [contents, setContents] = useState<IPost[] | null>(null);
-  useLayoutEffect(() => {
-    // redirect('/signin');
-    // const user = localStorage.getItem('user') || null;
-    // console.log({ user });
-    // const x = false;
-    // if (!x) {
-    // }
-  }, []);
 
   async function getPosts() {
-    const res = await fetch('api/posts');
+    const baseUrl = window.location.origin;
+    const res = await fetch(`${baseUrl}/api/posts`);
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch data');
-    }
+    // if (!res.ok) {
+    //   throw new Error('Failed to fetch data');
+    // }
 
     return res.json();
   }
@@ -40,24 +33,23 @@ const Feed2 = () => {
         toast('Unable to fetch posts');
       } else {
         console.log({ data });
-        setContents(data.data);
+        const filteredData = data.data.filter(
+          (content: any) => content.community === name
+        );
+        console.log({ name });
+        console.log({ filteredData });
+        setContents(filteredData);
       }
     })();
   }, []);
 
   return (
     <div className="col-span-7 lg:col-span-5 border-x">
-      <div className="flex items-center justify-between">
-        {/* <h1 className="p-5 pb-0 text-xl font-bold">Home</h1>
-        <ArrowPathIcon
-          className="h-8 w-8 cursor-pointer text-red-600 mr-5 mt-5 transition-all duration-500 ease-out hover:rotate-180 active:scale-125"
-          onClick={() => window.location.reload()}
-        /> */}
-      </div>
+      <div className="flex items-center justify-between"></div>
 
       {/* Tweetbox */}
       <div>
-        <Tweetbox />
+        <Tweetbox name={name} />
       </div>
 
       {/* Feed */}

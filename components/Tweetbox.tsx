@@ -7,6 +7,7 @@ import {
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { ThreeCircles } from 'react-loader-spinner';
 
 const seedData = {
   message: 'Login Successful',
@@ -24,16 +25,19 @@ const seedData = {
   },
 };
 
-const Tweetbox = () => {
+interface Props {
+  name: string;
+}
+
+const Tweetbox = ({ name }: Props) => {
   const [post, setPost] = useState<string>('');
   const [userData, setUserData] = useState<any>(seedData);
+
   let user;
   if (typeof window !== 'undefined') {
     user = JSON.parse(localStorage.getItem('user')!) || seedData;
-    // setUserData(user);
   } else {
     user = seedData;
-    // setUserData(user);
   }
 
   const [profileImage, setProfileImage] = useState(user.data.profileImage);
@@ -106,16 +110,31 @@ const Tweetbox = () => {
   }, [imageUrl]);
 
   const handleSubmit = async () => {
-    const rawPayload: { text: string; user: string; image?: string } = {
+    const baseUrl = window.location.origin;
+    const rawPayload: {
+      text: string;
+      user: string;
+      image?: string;
+      community?: string;
+    } = {
       text: post,
       user: userId,
     };
     if (imageUrl) {
       rawPayload.image = imageUrl;
     }
+    if (name !== 'home') {
+      rawPayload.community = name;
+    }
     console.log({ rawPayload });
     const payload = JSON.stringify(rawPayload);
-    fetch('api/posts', {
+    let endpointUrl: string;
+    if (name !== 'home') {
+      endpointUrl = `${baseUrl}/api/posts`;
+    } else {
+      endpointUrl = 'api/posts';
+    }
+    fetch(endpointUrl, {
       method: 'POST',
       body: payload,
     })
@@ -177,12 +196,24 @@ const Tweetbox = () => {
                 onChange={handleImageChange}
               />
             </div>
-            <button
-              disabled={!post}
-              className="bg-red-600 px-5 py-2 text-white rounded-full font-bold disabled:opacity-40"
-            >
-              Post
-            </button>
+            {isLoading ? (
+              <ThreeCircles
+                visible={true}
+                height="40"
+                width="40"
+                color="#EF4444"
+                ariaLabel="three-circles-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            ) : (
+              <button
+                disabled={!post}
+                className="bg-red-600 px-5 py-2 text-white rounded-full font-bold disabled:opacity-40"
+              >
+                Post
+              </button>
+            )}
           </div>
         </form>
       </div>
