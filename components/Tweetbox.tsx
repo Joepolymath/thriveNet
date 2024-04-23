@@ -23,6 +23,7 @@ const seedData = {
       'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png',
     __v: 0,
   },
+  authenticated: 'no',
 };
 
 interface Props {
@@ -111,6 +112,10 @@ const Tweetbox = ({ name }: Props) => {
 
   const handleSubmit = async () => {
     const baseUrl = window.location.origin;
+    if (userData.authenticated === 'no') {
+      window.location.href = `${baseUrl}/signin`;
+      return;
+    }
     const rawPayload: {
       text: string;
       user: string;
