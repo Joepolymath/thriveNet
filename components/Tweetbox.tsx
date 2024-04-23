@@ -8,45 +8,34 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+const seedData = {
+  message: 'Login Successful',
+  status: true,
+  data: {
+    _id: '66267b86c15cff7dcbcda8c9',
+    firstName: 'Joshua',
+    lastName: 'Ajagbe',
+    email: 'joshuaajagbe96@gmail.com',
+    username: 'joepolymath',
+    password: '$2a$10$Lq1hdijU6JRZTZ8zsmxqtutzfp/uwnxDwUA02QK1pI8aD/hXS5Xja',
+    profileImage:
+      'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png',
+    __v: 0,
+  },
+};
+
 const Tweetbox = () => {
   const [post, setPost] = useState<string>('');
+  const [userData, setUserData] = useState<any>(seedData);
   let user;
   if (typeof window !== 'undefined') {
-    // Access localStorage here
-    user = JSON.parse(localStorage.getItem('user')!) || {
-      message: 'Login Successful',
-      status: true,
-      data: {
-        _id: '66267b86c15cff7dcbcda8c9',
-        firstName: 'Joshua',
-        lastName: 'Ajagbe',
-        email: 'joshuaajagbe96@gmail.com',
-        username: 'joepolymath',
-        password:
-          '$2a$10$Lq1hdijU6JRZTZ8zsmxqtutzfp/uwnxDwUA02QK1pI8aD/hXS5Xja',
-        profileImage:
-          'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png',
-        __v: 0,
-      },
-    };
+    user = JSON.parse(localStorage.getItem('user')!) || seedData;
+    // setUserData(user);
   } else {
-    user = {
-      message: 'Login Successful',
-      status: true,
-      data: {
-        _id: '66267b86c15cff7dcbcda8c9',
-        firstName: 'Joshua',
-        lastName: 'Ajagbe',
-        email: 'joshuaajagbe96@gmail.com',
-        username: 'joepolymath',
-        password:
-          '$2a$10$Lq1hdijU6JRZTZ8zsmxqtutzfp/uwnxDwUA02QK1pI8aD/hXS5Xja',
-        profileImage:
-          'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png',
-        __v: 0,
-      },
-    };
+    user = seedData;
+    // setUserData(user);
   }
+
   const [profileImage, setProfileImage] = useState(user.data.profileImage);
 
   const [image, setImage] = useState<File | null>(null);
@@ -64,6 +53,10 @@ const Tweetbox = () => {
       setImage(file);
     }
   };
+
+  useEffect(() => {
+    setProfileImage(userData.data.profileImage);
+  }, [userData]);
 
   const handleUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
@@ -90,24 +83,10 @@ const Tweetbox = () => {
         user =
           localStorage && JSON.parse(localStorage.getItem('user') as string);
         if (!user) {
-          user = {
-            message: 'Login Successful',
-            status: true,
-            data: {
-              _id: '66267b86c15cff7dcbcda8c9',
-              firstName: 'Joshua',
-              lastName: 'Ajagbe',
-              email: 'joshuaajagbe96@gmail.com',
-              username: 'joepolymath',
-              password:
-                '$2a$10$Lq1hdijU6JRZTZ8zsmxqtutzfp/uwnxDwUA02QK1pI8aD/hXS5Xja',
-              profileImage:
-                'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png',
-              __v: 0,
-            },
-          };
+          user = seedData;
           localStorage.setItem('user', JSON.stringify(user));
         }
+        setUserData(user);
       }
     } catch (error) {}
     const userId = user.data._id;
