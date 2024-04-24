@@ -16,7 +16,7 @@ const CommunitiesFeed = ({ navState }: Props) => {
       } lg:col-span-5 border border-x border-gray-100`}
     >
       <Nav navState={navState} isAbsolute={false} />
-      <div className="flex items-center space-x-2 bg-gray-100 p-3 rounded-full">
+      {/* <div className="flex items-center space-x-2 bg-gray-100 p-3 rounded-full">
         <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
         <input
           type="text"
@@ -25,7 +25,7 @@ const CommunitiesFeed = ({ navState }: Props) => {
           placeholder="Search"
           className="bg-transparent flex-1 outline-none"
         />
-      </div>
+      </div> */}
       <div className="overflow-y-scroll">
         <h2 className="font-bold text-lg m-2">Our Communities</h2>
         <div className="overflow-y-scroll">
