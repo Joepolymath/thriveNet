@@ -13,11 +13,50 @@ interface Props {
 const Post = ({ post }: Props) => {
   const [comments, setComments] = useState<IComment[]>([]);
   const [liked, setLiked] = useState<boolean>(false);
+  const [likes, setLikes] = useState<number | undefined>(post.likes);
 
   useEffect(() => {
     console.log(post.user.profileImage);
     setComments(commentsData);
+    setLikes(post.likes);
+    let userId;
+    if (typeof window !== 'undefined') {
+      const userData = JSON.parse(localStorage.getItem('user')!);
+      userId = userData.data._id;
+    }
+    if (post.likedBys?.includes(userId)) {
+      setLiked(true);
+    } else {
+      setLiked(false);
+    }
   }, []);
+
+  const handleLike = () => {
+    setLiked(!liked);
+    let likedBy;
+    if (typeof window !== 'undefined') {
+      const userData = JSON.parse(localStorage.getItem('user')!);
+      likedBy = userData.data._id;
+    }
+    const payload = {
+      _id: post._id,
+      likedBy: likedBy,
+    };
+
+    fetch('api/posts', {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    })
+      .then((res) => res.json())
+      .then((data: any) => {
+        console.log({ data });
+        if (data.action === 'liked') {
+          setLikes(likes! + 1);
+        } else {
+          setLikes(likes! - 1);
+        }
+      });
+  };
 
   return (
     <div className="flex flex-col space-x-3 border-y border-gray-100 p-5">
@@ -63,20 +102,14 @@ const Post = ({ post }: Props) => {
               viewBox="0 0 24 24"
               fill="currentColor"
               className="w-5 h-5"
-              onClick={() => {
-                setLiked(!liked);
-              }}
+              onClick={handleLike}
             >
               <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
             </svg>
           ) : (
-            <HeartIcon
-              className="h-5 w-5"
-              onClick={() => {
-                setLiked(!liked);
-              }}
-            />
+            <HeartIcon className="h-5 w-5" onClick={handleLike} />
           )}
+          <p>{likes}</p>
         </div>
         <div className="flex cursor-pointer items-center space-x-3 text-gray-400">
           <ChatBubbleOvalLeftIcon className="h-5 w-5" />

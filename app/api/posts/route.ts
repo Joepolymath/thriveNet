@@ -40,3 +40,61 @@ export const POST = async (request: Request) => {
     return new NextResponse('Error in creating post' + error, { status: 500 });
   }
 };
+
+// like and dislike
+export const PATCH = async (request: Request) => {
+  try {
+    const body = await request.json();
+    await connect();
+
+    let newLikedBys: any[];
+    let likes: number;
+    let action: string;
+
+    const foundPost: any = await Post.findById(body._id).lean();
+    if (!foundPost) {
+      return new NextResponse('Post not found', { status: 404 });
+    }
+    console.log({ foundPost });
+    console.log({ likedBy: body.likedBy });
+    if (foundPost.likedBys.includes(body.likedBy)) {
+      console.log('DISLIKING');
+      // dislike
+      newLikedBys = foundPost.likedBys.filter(
+        (userId: any) => userId !== body.likedBy
+      );
+
+      console.log({ newLikedBys });
+
+      // decrement likes
+      likes = foundPost.likes - 1;
+      action = 'disliked';
+    } else {
+      console.log('LIKING');
+      // like
+      newLikedBys = [...foundPost.likedBys, body.likedBy];
+      console.log({ newLikedBys });
+      // increment likes
+      likes = foundPost.likes + 1;
+      action = 'liked';
+    }
+    console.log('NEWLIKEDBYS BEFOR UPDATE', newLikedBys);
+    const updatedPost = await Post.findByIdAndUpdate(body._id, {
+      likes,
+      likedBys: newLikedBys,
+    });
+
+    console.log({ updatedPost });
+
+    return new NextResponse(
+      JSON.stringify({
+        message: 'Posts Created',
+        data: updatedPost,
+        action,
+        status: true,
+      })
+    );
+  } catch (error) {
+    return new NextResponse('Error in liking post ' + error, { status: 500 });
+  }
+};

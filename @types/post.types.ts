@@ -5,6 +5,7 @@ export interface IPost {
   _id: number;
   username?: string;
   profileImage?: string;
+  likedBys?: string[];
   createdAt: Date | string;
   user: {
     _id: string;

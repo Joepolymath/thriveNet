@@ -20,6 +20,13 @@ const postSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    likedBys: [
+      {
+        // type: mongoose.Types.ObjectId,
+        // ref: 'User',
+        type: String,
+      },
+    ],
   },
   { timestamps: true }
 );
