@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ThreeCircles } from 'react-loader-spinner';
 
-const seedData = {
+export const seedData = {
   message: 'Login Successful',
   status: true,
   data: {

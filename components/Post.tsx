@@ -111,10 +111,10 @@ const Post = ({ post }: Props) => {
           )}
           <p>{likes}</p>
         </div>
-        <div className="flex cursor-pointer items-center space-x-3 text-gray-400">
+        {/* <div className="flex cursor-pointer items-center space-x-3 text-gray-400">
           <ChatBubbleOvalLeftIcon className="h-5 w-5" />
           <p>{comments.length}</p>
-        </div>
+        </div> */}
       </div>
 
       {/* comment logic */}

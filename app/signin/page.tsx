@@ -1,10 +1,11 @@
 'use client';
-import React, { SetStateAction, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import Logo from '@/assets/logo.png';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { ThreeCircles } from 'react-loader-spinner';
+import { seedData } from '@/components/Tweetbox';
 
 type LoginDataType = {
   username?: string;
@@ -16,6 +17,12 @@ const Signin = () => {
   const [password, setPassword] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('user', JSON.stringify(seedData));
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
